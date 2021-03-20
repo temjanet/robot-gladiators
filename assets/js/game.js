@@ -30,19 +30,21 @@ var fight = function(enemyName) {
       }
     }
 
-    enemyHealth = enemyHealth - playerAttack;
+    var damage = randomNumber(playerInfo.attack - 3, playerInfo.attack);
+
+    enemyHealth = Math.max(0, enemyHealth - playerAttack);
     console.log(
       playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining."
     );
     if (enemyHealth <= 0) {
       window.alert(enemyName + " has died!");
-      playerMoney = playerMoney + 20;
+      playerInfo.money = playerInfo.money + 20;
       break;
     } else {
       window.alert(enemyName + " still has " + enemyHealth + " health left.");
     }
 
-    playerHealth = playerHealth - enemyAttack;
+    playerHealth = Math.max(0, playerHealth - enemyAttack);
     console.log(
       enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining."
     );
@@ -51,6 +53,22 @@ var fight = function(enemyName) {
       break;
     } else {
       window.alert(playerName + " still has " + playerHealth + " health left.");
+    }
+
+    var damage = randomNumber(enemy.attack - 3, enemy.attack);
+
+    playerInfo.health = Math.max(0, playerInfo.health - damage);
+  
+    console.log(
+      enemy.name + ' attacked ' + playerInfo.name + '. ' + playerInfo.name + ' now has ' + playerInfo.health + ' health remaining.'
+    );
+
+    if (playerInfo.health <= 0) {
+      window.alert(playerInfo.name + ' has died!');
+
+      break;
+    } else {
+      window.alert(playerInfo.name + ' still has ' + playerInfo.health + ' health left.');
     }
   }
 };
@@ -64,7 +82,7 @@ var startGame = function() {
     if (playerHealth > 0) {
       window.alert("Welcome to Robot Gladiators! Round " + (i + 1));
       var pickedEnemyName = enemyNames[i];
-      enemyHealth = 50;
+      enemyHealth = Math.floor(Math.random() * 21) + 40;
       fight(pickedEnemyName);
       if (playerHealth > 0 && i < enemyNames.length - 1) {
         var storeConfirm = window.confirm("The fight is over, visit the store before the next round?");
@@ -127,7 +145,7 @@ var shop = function() {
     else {
         window.alert("You don't have enough money!");
     }
-    
+
       break;
     case 'LEAVE':
     case 'leave':
